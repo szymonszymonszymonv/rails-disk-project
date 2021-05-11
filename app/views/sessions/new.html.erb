@@ -1,0 +1,19 @@
+<%= form_with url:login_path do |form| %>
+    <% flash.each do |type, msg| %>
+        <div class="alert alert-info">
+            <%= msg %>
+        </div>
+    <% end %>
+    <div class="mb-3">
+    </br>
+        <%= form.label :email %>
+        <%= form.text_field :email, class: "form-control", placeholder: "wizard@example.com" %>
+    </div>
+    <div class="mb-3">
+        <%= form.label :password %>
+        <%= form.password_field :password, class: "form-control", placeholder: "password"%>
+    </div>
+    <div class="mb-3">
+        <%= form.submit %>
+    </div>
+<% end %>
