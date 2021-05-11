@@ -8,6 +8,7 @@ class PublicController < ApplicationController
       'navbar'
     end
   end
+  
   helper_method :home
 
 end

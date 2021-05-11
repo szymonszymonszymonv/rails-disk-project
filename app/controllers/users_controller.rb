@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    puts params
     @user = User.new(user_params)
 
     if @user.save

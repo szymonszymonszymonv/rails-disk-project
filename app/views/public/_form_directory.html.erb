@@ -1,0 +1,10 @@
+<%= form_with model: [ @directory, Directory.new ], url: directories_path do |form| %>
+    <div class="mb-3">
+    </br>
+        <%= form.label :name %>
+        <%= form.text_field :name, class: "form-control", placeholder: "Photos" %>
+    </div>
+    <div class="mb-3">
+        <%= form.submit %>
+    </div>
+<% end %>

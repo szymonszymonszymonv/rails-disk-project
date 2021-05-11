@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'sessions/destroy'
   get 'users/new'
-  resources :public, :users, :sessions
+  resources :public, :users, :sessions, :directories
 
   get '/', to: 'public#home'
   
@@ -12,5 +12,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
 
-  root to: 'public#home'  
+  post '/directories', to: 'directories#create'
+
+  root to: 'public#home'
 end

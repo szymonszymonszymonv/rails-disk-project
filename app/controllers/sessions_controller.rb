@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
+    puts user
     pass_test = params[:password]
     if user.present? && user.password == pass_test
       session[:user_id] = user.id
