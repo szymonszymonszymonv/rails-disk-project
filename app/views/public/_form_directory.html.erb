@@ -1,10 +1,28 @@
 <%= form_with model: [ @directory, Directory.new ], url: directories_path do |form| %>
-    <div class="mb-3">
+
+<div class="mb-3">
     </br>
-        <%= form.label :name %>
-        <%= form.text_field :name, class: "form-control", placeholder: "Photos" %>
-    </div>
-    <div class="mb-3">
-        <%= form.submit %>
-    </div>
+    <%= form.label :name %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Photos" %>
+
+</div>
+<div class="mb-3">
+    <%= form.submit %>
+</div>
+
+
+
 <% end %>
+
+<h1>Pepega dysk</h1>
+
+<ul>
+    <% directories=Directory.where(["user_id = ?", session[:user_id]]) %>
+    <% directories.each do |directory| %>
+    <li>
+
+        <%= link_to directory.name, directory %>
+
+    </li>
+    <% end %>
+</ul>

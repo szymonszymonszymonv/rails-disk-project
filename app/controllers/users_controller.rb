@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     else
       render :new
     end
-    
+  
   end
 
   def user_params

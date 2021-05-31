@@ -1,5 +1,6 @@
 class DirectoriesController < ApplicationController
 
+
     def create
         puts directory_params
         user = User.find_by(id: session[:user_id])
@@ -8,14 +9,22 @@ class DirectoriesController < ApplicationController
         if !@directory.save
             flash.alert = "ERROR"
         end
-        redirect_to root_path
-
         
-
+            redirect_to root_path
     end
+
+    def new
+        @direcotry = Directory.new
+      end
+
+    def show
+        @directory = Directory.find(params[:id])
+      end
 
     def directory_params
         params.require(:directory).permit(:name)
     end
+
+    
     
 end

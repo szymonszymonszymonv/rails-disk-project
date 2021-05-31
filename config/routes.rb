@@ -1,7 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   get 'sessions/destroy'
   get 'users/new'
   resources :public, :users, :sessions, :directories
+
+  resources :users do
+    resources :directories
+  end
+
+
+
 
   get '/', to: 'public#home'
   
@@ -13,6 +22,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
 
   post '/directories', to: 'directories#create'
+  
 
   root to: 'public#home'
 end
