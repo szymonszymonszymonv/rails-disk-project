@@ -4,20 +4,22 @@
     </br>
     <%= form.label :name %>
     <%= form.text_field :name, class: "form-control", placeholder: "Photos" %>
-
+    <% if @directory_parent %>
+    <%= form.hidden_field :parent_id, value: @directory_parent.id %>
+    <% end %>
 </div>
 <div class="mb-3">
     <%= form.submit %>
 </div>
 
-
-
 <% end %>
 
-<h1>Pepega dysk</h1>
-
 <ul>
-    <% directories=Directory.where(["user_id = ?", session[:user_id]]) %>
+    <% if @directory_parent %>
+    <% directories=@directory_parent.children %>
+    <% else %>
+    <% directories=Directory.where(user_id: session[:user_id], parent_id: nil) %>
+    <% end %> 
     <% directories.each do |directory| %>
     <li>
 

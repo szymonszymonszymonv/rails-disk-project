@@ -14,15 +14,15 @@ class DirectoriesController < ApplicationController
     end
 
     def new
-        @direcotry = Directory.new
+        @directory = Directory.new
       end
 
     def show
-        @directory = Directory.find(params[:id])
+        @directory_parent = Directory.find(params[:id])
       end
 
     def directory_params
-        params.require(:directory).permit(:name)
+        params.require(:directory).permit(:name, :parent_id)
     end
 
     

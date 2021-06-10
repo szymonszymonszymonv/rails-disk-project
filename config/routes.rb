@@ -21,8 +21,9 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
 
+
   post '/directories', to: 'directories#create'
-  
+  # get '/directories/:id', to: 'directories#show'
 
   root to: 'public#home'
 end
