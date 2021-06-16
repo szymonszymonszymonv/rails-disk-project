@@ -5,33 +5,23 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="primary"
-          dark
           v-bind="attrs"
           v-on="on"
         >
-          Log in
+          Rename
         </v-btn>
       </template>
-      <v-form @submit="submit">
+      <v-form @submit.prevent="Rename">
         <v-card>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  v-model="email"
-                  label="Email*"
-                  placeholder="wizard@example.com"
-                  type="email"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="password"
-                  label="Password*"
-                  type="password"
+                  v-model="name"
+                  label="New directory name*"
+                  placeholder="Videos"
+                  type="name"
                   required
                 ></v-text-field>
               </v-col>
@@ -64,39 +54,39 @@
 
 <script>
 import axios from 'axios'
-  export default {
+export default {
 
-    data: () => ({
-        dialog: false,
-        email: '',
-        password: ''
-    }),
+    props: {
+        id: Number
+    },
 
+    data: () => {
+        return {
+            dialog: false,
+            name: ''
+        }
+    },
+
+    computed: {
+
+    },
 
     methods: {
-        submit(){
-            const token = document.querySelector('meta[name="csrf-token"]').content
+        Rename(){
+            let path = '/directories/' + this.id + '/update_name'
             axios
-            .post('/login', {
-                email: this.email,
-                password: this.password,
-                headers: {
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'X-CSRF-Token': token,
-                  "Content-Type": "application/json",
-                  'Accept': 'application/json'
-                },
-                credentials: 'same-origin'
+            .put(path, {
+                name: this.name,
+                id: this.id
             })
             .then(response => {
                 console.log(response)
                 if(response.data.status != "not_found"){
-                    this.$emit("user-logged-in", response.data.directories)
-                    localStorage.user = response.data.user
-                    localStorage.directories = JSON.stringify(response.data.directories)
+                    console.log('SUCCESS')
+                    this.$emit('rename-directory', this.name)
                 }
             })
         }
     }
-  }
+}
 </script>

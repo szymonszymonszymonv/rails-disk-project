@@ -10,28 +10,20 @@
           v-bind="attrs"
           v-on="on"
         >
-          Log in
+          Create directory
         </v-btn>
       </template>
-      <v-form @submit="submit">
+      <v-form @submit.prevent="createDirectory">
         <v-card>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  v-model="email"
-                  label="Email*"
-                  placeholder="wizard@example.com"
-                  type="email"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="password"
-                  label="Password*"
-                  type="password"
+                  v-model="name"
+                  label="Directory name*"
+                  placeholder="Photos"
+                  type="name"
                   required
                 ></v-text-field>
               </v-col>
@@ -64,22 +56,42 @@
 
 <script>
 import axios from 'axios'
-  export default {
+export default {
 
-    data: () => ({
-        dialog: false,
-        email: '',
-        password: ''
-    }),
+    props: {
+      path: Array,
+      user: String,
+      directories: Array
+    },
 
+    data: () => {
+        return {
+            dialog: false,
+            name: ''
+        }
+    },
+
+    computed: {
+        parentId(){
+            let idd = this.path[this.path.length - 1].id
+            if(idd == -1){
+              return null
+            }
+            else{
+              return idd
+            }
+        }
+    },
 
     methods: {
-        submit(){
+        createDirectory(){
+          console.log(this.parentId)
             const token = document.querySelector('meta[name="csrf-token"]').content
             axios
-            .post('/login', {
-                email: this.email,
-                password: this.password,
+            .post('/directories', {
+                user: this.user,
+                name: this.name,
+                parent_id: this.parentId,
                 headers: {
                   'X-Requested-With': 'XMLHttpRequest',
                   'X-CSRF-Token': token,
@@ -91,12 +103,18 @@ import axios from 'axios'
             .then(response => {
                 console.log(response)
                 if(response.data.status != "not_found"){
-                    this.$emit("user-logged-in", response.data.directories)
-                    localStorage.user = response.data.user
-                    localStorage.directories = JSON.stringify(response.data.directories)
+                    console.log('SUCCESS')
+                    console.log('in form: ' + this.directories)
+
+                    let tmpdir = this.directories
+                    tmpdir.push(response.data.directory)
+                    // this.directories(response.data.directory)
+                    localStorage.directories = JSON.stringify(tmpdir)
+                    console.log("TYPE OF LOCALSTORAGE.DIRECTORIES >> " + typeof(localStorage.directories))
+                    this.$emit('create-directory', tmpdir)
                 }
             })
         }
     }
-  }
+}
 </script>

@@ -3,12 +3,25 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   get 'sessions/destroy'
   get 'users/new'
-  resources :public, :users, :sessions, :directories
+  resources :public, :users, :sessions, :directories, :disk_files
 
   resources :users do
     resources :directories
   end
 
+
+  resources :directories do
+    member do
+      delete :delete_file
+    end
+  end
+
+  resources :directories do
+    member do
+      patch :update_name
+      put :update_name
+    end
+  end
 
 
 
@@ -21,9 +34,13 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
 
-
+  put '/directories/:id', to: 'directories#edit'
+  put '/directories/:id/upload', to: 'directories#update'
+  get '/directories/:id/upload', to: 'directories#get_files'
   post '/directories', to: 'directories#create'
-  # get '/directories/:id', to: 'directories#show'
-
+  get '/directories/:id/children', to: 'directories#show_children'
+  delete '/directories/files/:id', to: 'directories#delete_file'
+  get '/directories/files/:id', to: 'directories#file_link'
+  post '/start', to: 'sessions#get_root'
   root to: 'public#home'
 end
