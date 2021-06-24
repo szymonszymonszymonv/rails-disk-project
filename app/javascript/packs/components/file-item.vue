@@ -59,9 +59,6 @@ export default {
                     type: 'Delete'
                 },
                 {
-                    type: 'Cut'
-                },
-                {
                     type: 'Share'
                 }
             ],

@@ -3,7 +3,6 @@
         <v-app-bar
         app
         >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
         <v-toolbar-title>potezny dysk</v-toolbar-title>
 
@@ -92,7 +91,7 @@
 
             </v-menu>
         </v-app-bar>
-
+        
         <v-main :style="styleObject">
             <v-system-bar
             height="40"
@@ -161,7 +160,7 @@ import FileItem from './file-item.vue'
 import axios from 'axios'
 
 export default {
-    props: ['isLoggedIn'],
+    props: ['isLoggedIn', 'directoriesPreview'],
 
     data: () => {
         return {
@@ -180,9 +179,6 @@ export default {
                 },
                 {
                     type: 'Rename'
-                },
-                {
-                    type: 'Cut'
                 },
                 {
                     type: 'Share'
@@ -208,7 +204,8 @@ export default {
         styleObject(){
             if(!this.isLoggedIn){
                 return {
-                    filter: 'blur(4px)'
+                    filter: 'blur(3px)',
+                    'pointer-events': 'none'
                 }
             }
         },
@@ -235,6 +232,7 @@ export default {
             let tmpfils = localStorage.current_files
             this.current_files = JSON.parse(tmpfils)
         }
+
     },
 
     components: {
@@ -247,6 +245,7 @@ export default {
     },
 
     methods: {
+
         updateDirectories(updatedDirectory){
             console.log('in toolbar: ' + this.directories)
             this.directories = updatedDirectory

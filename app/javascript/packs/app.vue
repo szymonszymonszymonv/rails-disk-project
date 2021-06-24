@@ -15,6 +15,7 @@
 
     <ExtendedToolbar 
     :isLoggedIn='this.isLoggedIn'
+    :directoriesPreview='this.directories'
 
     />
 
@@ -30,17 +31,14 @@ import LogoutItem from './components/logout-item.vue'
 import ExtendedToolbar from './components/extended-toolbar.vue'
 
 export default {
-// TO DO:
-// SHOW FILES
-// EDIT FILES
-// CUT / PASTE : FILES / DIRECTORIES
-// LINK TO FILE
 
 
   data: () => {
     return {
       user: '',
+      files: [],
       directories: [],
+      path: []
     }
   },
 
@@ -52,7 +50,7 @@ export default {
 
   mounted(){
     this.user = localStorage.user
-    // this.directories = JSON.parse(localStorage.directories)
+    this.initPreview()
   },
 
   components: {
@@ -64,11 +62,7 @@ export default {
   },
 
   methods: {
-    updateDirectories(updatedDirectories){
-        // console.log("no poka" + this.directories)
-        // this.directories = updatedDirectories
-        // this.localStorage.directories = JSON.stringify(updatedDirectories)
-    },
+    
   }
 }
 </script>
